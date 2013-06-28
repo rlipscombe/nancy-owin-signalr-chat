@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Chat</title>
+
+    <link rel="stylesheet" type="text/css" href="/Content/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/Content/bootstrap-responsive.min.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="well well-large span10 text-center">
+            <h1>Say something interesting</h1>
+        </div>
+        
+        <div class="span10">
+            <form class="form-horizontal" id="form">
+                <input type="text" class="span8" id="message" placeholder="Type something" />
+                <input type="button" class="btn btn-primary span2" value="Send" />
+            </form>
+        </div>
+    
+        <div class="span10">
+            <ul id="messages" class="unstyled">
+                <li>Messages go here.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="/Scripts/jquery.signalR-1.1.2.min.js"></script>
+    <script src="/Scripts/bootstrap.min.js"></script>
+    <script src="/signalr/hubs"></script>
+
+    <script>
+        $(function () {
+            var chatHub = $.connection.chatHub;
+
+            chatHub.client.broadcastMessage = function (message) {
+                var x = $('<div></div>').text(message).html();
+                $('#messages').append('<li>' + x + '</li>');
+            };
+
+            $.connection.hub.start().done(function () {
+                $('#form').submit(function () {
+                    var message = $('#message').val();
+                    chatHub.server.send(message);
+                    $('#message').val('');
+                    return false;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
