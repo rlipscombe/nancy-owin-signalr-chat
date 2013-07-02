@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using Microsoft.Owin.Hosting;
 
 namespace Chat
 {
@@ -20,7 +21,7 @@ namespace Chat
                     };
 
             const string url = "http://+/Chat";
-            using (WebApplication.Start(url))
+            using (WebApp.Start(url))
             {
                 Console.WriteLine("Listening on {0}; press Ctrl+C to quit.", url);
                 stop.WaitOne();
