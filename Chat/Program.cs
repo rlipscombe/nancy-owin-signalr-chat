@@ -20,7 +20,7 @@ namespace Chat
                         e.Cancel = true;
                     };
 
-            const string url = "http://localhost:13490";
+            const string url = "http://+/Chat";
             using (WebApplication.Start(url))
             {
                 Console.WriteLine("Listening on {0}; press Ctrl+C to quit.", url);
