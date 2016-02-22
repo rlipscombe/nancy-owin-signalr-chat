@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.SignalR;
+using Nancy.Owin;
 using Owin;
 
 namespace Chat
@@ -9,10 +10,13 @@ namespace Chat
         {
             // Map the hubs first, otherwise Nancy grabs them and you get a 404.
             var configuration = new HubConfiguration { EnableDetailedErrors = true };
-            app.MapHubs(configuration);
+            app.MapSignalR(configuration);
 
-            var bootstrapper = new Bootstrapper();
-            app.UseNancy(bootstrapper);
+            var nancyOptions = new NancyOptions
+            {
+                Bootstrapper = new Bootstrapper()
+            };
+            app.UseNancy(nancyOptions);
         }
     }
 }
